@@ -43,42 +43,6 @@ app.get('/', function (req, res) {
   		 });
 });
 
-//Create new instance
-app.put('/', function (req, res) {
-
-	console.log("HTTP Put Request");
-
-	var userName = req.body.UserName;
-	var msg = req.body.Msg;
-
-
-	var referencePath = 'chat';
-	var userReference = firebase.database().ref(referencePath);
-	userReference.set({Usuario: name, Mensagem: msg}, 
-				 function(error) {
-					if (error) {
-						res.send("Data could not be saved." + error);
-					} 
-					else {
-						res.send("Data saved successfully.");
-					}
-			});
-});
-
-app.post('/', function (req, res) {
-  console.log("HTTP POST Request");
-  res.send("HTTP POST Request");  
-});
-
-app.delete('/', function (req, res) {
-  console.log("HTTP DELETE Request");
-  res.send("HTTP DELETE Request");
-});
-
 var server = app.listen(80, function () {
-
-  var host = server.address().address;
-  var port = server.address().port;
-
-  console.log("Example app listening at http://%s:%s", host, port);
+	
 });

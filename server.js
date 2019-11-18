@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var firebase = require('firebase');
+var bodyParser = require('body-parser');
 
 var firebaseConfig = {
   apiKey: "AIzaSyBrw8Lx9jXwSOeRSq0x219i3CF_tVIxUiM",
@@ -24,6 +25,8 @@ var config = {
 };
 firebase.initializeApp(config);
 
+app.use(bodyParser.json());
+
 //Fetch instances
 app.get('/', function (req, res) {
 
@@ -34,16 +37,39 @@ app.get('/', function (req, res) {
 	userReference.on("value", 
 			  function(snapshot) {
 					console.log(snapshot.val());
+					res.header("Access-Control-Allow-Origin", "*");
+					res.header("Access-Control-Allow-Headers", "Origin, X-Request-Width, Content-Type, Accept");
 					res.json(snapshot.val());
 					userReference.off("value");
-					}, 
+					},
 			  function (errorObject) {
 					console.log("The read failed: " + errorObject.code);
 					res.send("The read failed: " + errorObject.code);
-  		 });
+		   });
 });
 
-var port = process.env.PORT || 8080
-var server = app.listen(process.env.PORT, function () {
+// app.put('/', function (req, res) {
+
+// 	console.log("HTTP Put Request");
+// 	var user = req.body.User;
+// 	var txt = req.body.Txt;
+
+// 	var referencePath = '/chat/';
+// 	var userReference = firebase.database().ref(referencePath);
+// 	userReference.set({User: user, Txt: txt}, 
+// 				 function(error) {
+// 					if (error) {
+// 						res.send("Data could not be saved." + error);
+// 					} 
+// 					else {
+// 						res.send("Data saved successfully.");
+// 					}
+// 			});
+// });
+
+console.log('Its on');
+
+var port = process.env.PORT || 8000
+var server = app.listen(port, function () {
 
 });

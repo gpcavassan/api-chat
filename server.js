@@ -25,7 +25,11 @@ var config = {
 };
 firebase.initializeApp(config);
 
+app.use(bodyParser());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 
 //Fetch instances
 app.get('/', function (req, res) {
@@ -48,24 +52,24 @@ app.get('/', function (req, res) {
 		   });
 });
 
-// app.put('/', function (req, res) {
+app.put('/', function (req, res) {
 
-// 	console.log("HTTP Put Request");
-// 	var user = req.body.User;
-// 	var txt = req.body.Txt;
+	console.log("HTTP Put Request");
+	var user = req.body.user;
+	var txt = req.body.txt;
 
-// 	var referencePath = '/chat/';
-// 	var userReference = firebase.database().ref(referencePath);
-// 	userReference.set({User: user, Txt: txt}, 
-// 				 function(error) {
-// 					if (error) {
-// 						res.send("Data could not be saved." + error);
-// 					} 
-// 					else {
-// 						res.send("Data saved successfully.");
-// 					}
-// 			});
-// });
+	var referencePath = '/chat/';
+	var userReference = firebase.database().ref(referencePath);
+	userReference.push({user: user, txt: txt}, 
+				 function(error) {
+					if (error) {
+						res.send("Data could not be saved." + error);
+					} 
+					else {
+						res.send("Data saved successfully.");
+					}
+			});
+});
 
 console.log('Its on');
 
